@@ -1,0 +1,20 @@
+name: 'Azure Storage Action'
+inputs:
+  connection-string: 
+    description: 'Connection String of the Azure Storage Container'
+    required: true
+  folder: 
+    description: 'Folder what contains the files for upload to Storage Container'
+    required: false
+  blob-container-name: 
+    description: 'Name of Blob Container Storage'
+    required: false
+  public-access-policy: 
+    description: 'Access Policy to update in the Container'
+    required: false
+  enabled-static-website: 
+    description: 'Enabled static website'
+    required: false
+runs:
+  using: 'node12'
+  main: 'index.js'

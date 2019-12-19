@@ -1,0 +1,23 @@
+{
+  "name": "azure-storage-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lauchacarro/Azure-Storage-Action.git"
+  },
+  "author": "Lautaro Carro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lauchacarro/Azure-Storage-Action/issues"
+  },
+  "homepage": "https://github.com/lauchacarro/Azure-Storage-Action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "@actions/exec": "^1.0.2"
+  }
+}
