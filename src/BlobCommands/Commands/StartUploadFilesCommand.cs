@@ -31,7 +31,7 @@ namespace AzureStorageAction.BlobCommands.Commands
                 {
                     FileInfo file = new FileInfo(filePath);
 
-                    string fileName = file.FullName.Replace(Environment.CurrentDirectory, string.Empty);
+                    string fileName = file.FullName.Replace(completePath, string.Empty);
 
                     foreach (string slide in new[] { "\\", "\"", "/" })
                     {
