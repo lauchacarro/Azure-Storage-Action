@@ -20,8 +20,10 @@ namespace AzureStorageAction.Extensions
 
         public static IEnumerable<ArgumentEnum> ToEnums(this IEnumerable<ArgumentAttribute> arguments)
         {
-            string[] argumentsKeys = arguments.GetKeys();
-            return arguments.Select(x => (ArgumentEnum)Array.IndexOf(argumentsKeys, x.Key));
+            string[] argumentsKeys = typeof(ArgumentEnum).GetArray<ArgumentEnum>().GetArgumentAttributes().GetKeys().ToArray();
+            string[] keysValids = arguments.Where(x => argumentsKeys.Contains(x.Key)).GetKeys();
+
+            return keysValids.Select(x => (ArgumentEnum)Array.IndexOf(argumentsKeys, x));
         }
 
         public static ArgumentEnum? ValidateArgumentsRequerid(this Dictionary<ArgumentEnum, string> keyValues)
