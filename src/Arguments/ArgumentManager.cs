@@ -23,6 +23,8 @@ namespace AzureStorageAction.Arguments
 
             string[] argumentsKeys = argumentAttributes.GetKeys();
 
+            args = args.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+
             for (int i = 0; i < args.Length; i++)
             {
                 if (!args.IsLast(i))
@@ -45,6 +47,11 @@ namespace AzureStorageAction.Arguments
             {
                 throw new ArgumentException(string.Format("{0} was not specified", argumentMissing.Value.ToString()));
             }
+        }
+
+        public static void Clear()
+        {
+            KeyValues.Clear();
         }
     }
 }
