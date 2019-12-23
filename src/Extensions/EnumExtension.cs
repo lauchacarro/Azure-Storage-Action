@@ -13,6 +13,9 @@ namespace AzureStorageAction.Extensions
         {
             FieldInfo fi = @enum.GetType().GetField(@enum.ToString());
 
+            if (fi.IsNull())
+                return null;
+
             ArgumentAttribute[] attributes =
                 (ArgumentAttribute[])fi.GetCustomAttributes(
                 typeof(ArgumentAttribute),
