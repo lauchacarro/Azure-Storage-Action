@@ -1,25 +1,41 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-
 using AzureStorageAction.Arguments;
 using AzureStorageAction.Extensions;
-
+using AzureStorageAction.Singletons.Interfaces;
 using System;
 using System.Threading.Tasks;
 
 namespace AzureStorageAction.Singletons
 {
-    public sealed class BlobContainerClientSingleton
+    public sealed class BlobContainerClientSingleton : IBlobContainerClientSingleton
     {
         private BlobContainerClientSingleton()
         {
+            BlobServiceClientObject = BlobServiceClientSingleton.Instance;
         }
 
-        public static readonly BlobContainerClientSingleton _instance = new BlobContainerClientSingleton();
-
-        public string ContainerName { get; set; }
+        private string _containerName = null;
 
         private BlobContainerClient _blobContainerClient = null;
+
+        private BlobServiceClient _blobServiceClient = null;
+
+        private static BlobContainerClientSingleton _instance = null;
+        public static BlobContainerClientSingleton Instance
+        {
+            get
+            {
+                if (_instance.IsNull())
+                {
+                    _instance = new BlobContainerClientSingleton();
+                }
+
+                return _instance;
+            }
+        }
+
+        public IBlobServiceClientSingleton BlobServiceClientObject { get; set; }
 
         public async Task<BlobContainerClient> GetBlobContainerClient()
         {
@@ -27,34 +43,57 @@ namespace AzureStorageAction.Singletons
             {
                 SetContainerName();
 
-                await foreach (BlobContainerItem container in BlobServiceClientSingleton._instance.GetBlobServiceClient().GetBlobContainersAsync())
+                if (_blobServiceClient.IsNull())
                 {
-                    if (container.Name == _instance.ContainerName.Trim())
-                    {
-                        _blobContainerClient = BlobServiceClientSingleton._instance.GetBlobServiceClient().GetBlobContainerClient(_instance.ContainerName);
-                        Console.WriteLine("Blob Container {0} was found.", _instance.ContainerName);
-                        break;
-                    }
+                    _blobServiceClient = GetBlobServiceClient();
                 }
+
+                _blobContainerClient = await SearchBlobContainer();
 
                 if (_blobContainerClient.IsNull())
                 {
-                    _blobContainerClient = await BlobServiceClientSingleton._instance.GetBlobServiceClient().CreateBlobContainerAsync(_instance.ContainerName);
-                    Console.WriteLine("Blob Container {0} was created.", _instance.ContainerName);
+                    await CreateBlobContainer();
                 }
             }
 
             return _blobContainerClient;
         }
 
-        public void SetContainerName()
+        private void SetContainerName()
         {
-            _instance.ContainerName = ArgumentContext.Instance.GetValue(ArgumentEnum.ContainerName);
+            _containerName = ArgumentContext.Instance.GetValue(ArgumentEnum.ContainerName);
 
-            if (string.IsNullOrWhiteSpace(_instance.ContainerName))
+            if (string.IsNullOrWhiteSpace(_containerName))
             {
-                _instance.ContainerName = BlobContainerClient.WebBlobContainerName;
+                _containerName = BlobContainerClient.WebBlobContainerName;
             }
+        }
+
+        private async Task<BlobContainerClient> SearchBlobContainer()
+        {
+            await foreach (BlobContainerItem container in _blobServiceClient.GetBlobContainersAsync())
+            {
+                if (container.Name == _containerName.Trim())
+                {
+                    BlobContainerClient blobContainer = _blobServiceClient.GetBlobContainerClient(_containerName);
+                    Console.WriteLine("Blob Container {0} was found.", _containerName);
+                    return blobContainer;
+                }
+            }
+
+            return null;
+        }
+
+        private async Task<BlobContainerClient> CreateBlobContainer()
+        {
+            BlobContainerClient blobContainer = await _blobServiceClient.CreateBlobContainerAsync(_containerName);
+            Console.WriteLine("Blob Container {0} was created.", _containerName);
+            return blobContainer;
+        }
+
+        private BlobServiceClient GetBlobServiceClient()
+        {
+            return BlobServiceClientObject.GetBlobServiceClient();
         }
     }
 }

@@ -38,7 +38,7 @@ namespace AzureStorageAction.BlobCommands.Commands
                         fileName = fileName.StartsWith(slide) ? fileName.Substring(slide.Length) : fileName;
                     }
 
-                    BlobClient blobClient = (await BlobContainerClientSingleton._instance.GetBlobContainerClient()).GetBlobClient(fileName);
+                    BlobClient blobClient = (await BlobContainerClientSingleton.Instance.GetBlobContainerClient()).GetBlobClient(fileName);
 
                     await blobClient.UploadAsync(file.FullName, true);
 

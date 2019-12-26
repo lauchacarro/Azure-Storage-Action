@@ -13,7 +13,7 @@ namespace AzureStorageAction.Arguments
             _arguments = new Dictionary<ArgumentEnum, string>();
         }
 
-        private Dictionary<ArgumentEnum, string> _arguments = null;
+        private readonly Dictionary<ArgumentEnum, string> _arguments = null;
 
         private static ArgumentContext _instance;
         public static ArgumentContext Instance
