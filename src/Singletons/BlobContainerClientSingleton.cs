@@ -17,7 +17,7 @@ namespace AzureStorageAction.Singletons
 
         private static BlobContainerClient _instance = null;
 
-        public static async Task<BlobContainerClient> GetInstace()
+        public static async Task<BlobContainerClient> GetInstance()
         {
             if (_instance.IsNull())
             {
