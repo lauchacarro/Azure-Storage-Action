@@ -41,8 +41,6 @@ namespace AzureStorageAction.Arguments
 
         string[] argumentsKeys = argumentAttributes.GetKeys();
 
-        args = args.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-
         for (int i = 0; i < args.Length; i++)
         {
             if (!args.IsLast(i))

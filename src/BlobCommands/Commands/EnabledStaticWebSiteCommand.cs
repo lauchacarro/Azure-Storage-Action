@@ -15,8 +15,7 @@ namespace AzureStorageAction.BlobCommands.Commands
         {
             if (bool.TryParse(ArgumentContext.Instance.GetValue(ArgumentEnum.EnableStaticWebSite), out bool enabled))
             {
-
-                Azure.Response<BlobServiceProperties> response = await BlobServiceClientSingleton.GetInstance().GetPropertiesAsync();
+                Azure.Response<BlobServiceProperties> response = await BlobServiceClientSingleton._instance.GetBlobServiceClient().GetPropertiesAsync();
                 BlobServiceProperties properties = response.Value;
                 BlobStaticWebsite blobStaticWebsite = new BlobStaticWebsite
                 {
@@ -27,7 +26,7 @@ namespace AzureStorageAction.BlobCommands.Commands
 
                 properties.StaticWebsite = blobStaticWebsite;
 
-                await BlobServiceClientSingleton.GetInstance().SetPropertiesAsync(properties);
+                await BlobServiceClientSingleton._instance.GetBlobServiceClient().SetPropertiesAsync(properties);
 
                 if (enabled)
                 {

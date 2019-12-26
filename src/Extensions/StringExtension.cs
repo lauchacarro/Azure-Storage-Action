@@ -8,5 +8,10 @@ namespace AzureStorageAction.Extensions
         {
             return args.Last() == args[index];
         }
+
+        public static string[] RemoveNullAndWhitespace(this string[] args)
+        {
+            return args.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+        }
     }
 }

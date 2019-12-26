@@ -1,7 +1,7 @@
 ﻿using AzureStorageAction.Arguments;
 using AzureStorageAction.BlobCommands;
 using AzureStorageAction.BlobCommands.Enums;
-
+using AzureStorageAction.Extensions;
 using System;
 using System.Threading.Tasks;
 
@@ -12,7 +12,10 @@ namespace AzureStorageAction
         static async Task Main(string[] args)
         {
             Console.WriteLine("Environment Directory: {0}", Environment.CurrentDirectory);
-            ArgumentContext.Instance.AddArguments(args);
+
+            string[] arguments = args.RemoveNullAndWhitespace();
+
+            ArgumentContext.Instance.AddArguments(arguments);
 
             BlobCommandManager manager = new BlobCommandManager();
             manager.SetCommand(BlobActionsEnum.EnabledStaticWebSite);

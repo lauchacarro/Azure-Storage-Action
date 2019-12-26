@@ -46,7 +46,7 @@ namespace AzureStorageAction.Test.Arguments.ArgumentContext.AddArguments
             AzureStorageAction.Arguments.ArgumentContext.Instance.AddArguments(args);
 
             Assert.AreEqual("connectionstring", AzureStorageAction.Arguments.ArgumentContext.Instance.GetValue(ArgumentEnum.ConnectionString));
-            Assert.AreEqual(string.Empty, AzureStorageAction.Arguments.ArgumentContext.Instance.GetValue(ArgumentEnum.FolderName));
+            Assert.AreEqual(null, AzureStorageAction.Arguments.ArgumentContext.Instance.GetValue(ArgumentEnum.FolderName));
             Assert.AreEqual(string.Empty, AzureStorageAction.Arguments.ArgumentContext.Instance.GetValue(ArgumentEnum.ContainerName));
 
             AzureStorageAction.Arguments.ArgumentContext.Instance.Clear();

@@ -11,18 +11,20 @@ namespace AzureStorageAction.Singletons
         {
         }
 
-        private static BlobServiceClient _instance = null;
+        public static BlobServiceClientSingleton _instance = new BlobServiceClientSingleton();
 
-        public static BlobServiceClient GetInstance()
+        private BlobServiceClient _blobServiceClient = null;
+
+        public BlobServiceClient GetBlobServiceClient()
         {
-            if (_instance.IsNull())
+            if (_blobServiceClient.IsNull())
             {
                 string connectionString = ArgumentContext.Instance.GetValue(ArgumentEnum.ConnectionString);
 
-                _instance = new BlobServiceClient(connectionString);
+                _blobServiceClient = new BlobServiceClient(connectionString);
             }
 
-            return _instance;
+            return _blobServiceClient;
         }
     }
 }

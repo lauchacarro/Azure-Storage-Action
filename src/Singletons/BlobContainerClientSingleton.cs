@@ -15,37 +15,46 @@ namespace AzureStorageAction.Singletons
         {
         }
 
-        private static BlobContainerClient _instance = null;
+        public static readonly BlobContainerClientSingleton _instance = new BlobContainerClientSingleton();
 
-        public static async Task<BlobContainerClient> GetInstance()
+        public string ContainerName { get; set; }
+
+        private BlobContainerClient _blobContainerClient = null;
+
+        public async Task<BlobContainerClient> GetBlobContainerClient()
         {
-            if (_instance.IsNull())
+            if (_blobContainerClient.IsNull())
             {
-                string containerName = ArgumentContext.Instance.GetValue(ArgumentEnum.ContainerName);
+                SetContainerName();
 
-                if (string.IsNullOrWhiteSpace(containerName))
+                await foreach (BlobContainerItem container in BlobServiceClientSingleton._instance.GetBlobServiceClient().GetBlobContainersAsync())
                 {
-                    containerName = BlobContainerClient.WebBlobContainerName;
-                }
-
-                await foreach (BlobContainerItem container in BlobServiceClientSingleton.GetInstance().GetBlobContainersAsync())
-                {
-                    if (container.Name == containerName.Trim())
+                    if (container.Name == _instance.ContainerName.Trim())
                     {
-                        _instance = BlobServiceClientSingleton.GetInstance().GetBlobContainerClient(containerName);
-                        Console.WriteLine("Blob Container {0} was found.", containerName);
+                        _blobContainerClient = BlobServiceClientSingleton._instance.GetBlobServiceClient().GetBlobContainerClient(_instance.ContainerName);
+                        Console.WriteLine("Blob Container {0} was found.", _instance.ContainerName);
                         break;
                     }
                 }
 
-                if (_instance.IsNull())
+                if (_blobContainerClient.IsNull())
                 {
-                    _instance = await BlobServiceClientSingleton.GetInstance().CreateBlobContainerAsync(containerName);
-                    Console.WriteLine("Blob Container {0} was created.", containerName);
+                    _blobContainerClient = await BlobServiceClientSingleton._instance.GetBlobServiceClient().CreateBlobContainerAsync(_instance.ContainerName);
+                    Console.WriteLine("Blob Container {0} was created.", _instance.ContainerName);
                 }
             }
 
-            return _instance;
+            return _blobContainerClient;
+        }
+
+        public void SetContainerName()
+        {
+            _instance.ContainerName = ArgumentContext.Instance.GetValue(ArgumentEnum.ContainerName);
+
+            if (string.IsNullOrWhiteSpace(_instance.ContainerName))
+            {
+                _instance.ContainerName = BlobContainerClient.WebBlobContainerName;
+            }
         }
     }
 }
