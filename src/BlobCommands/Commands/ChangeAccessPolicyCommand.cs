@@ -13,7 +13,7 @@ namespace AzureStorageAction.BlobCommands.Commands
     {
         public async Task ExecuteAction()
         {
-            string publicAccessPolicy = ArgumentManager.GetValue(ArgumentEnum.PublicAccessPolicy);
+            string publicAccessPolicy = ArgumentContext.Instance.GetValue(ArgumentEnum.PublicAccessPolicy);
             if (Enum.TryParse(typeof(PublicAccessType), publicAccessPolicy, out object result))
             {
                 await (await BlobContainerClientSingleton.GetInstace()).SetAccessPolicyAsync((PublicAccessType)result);

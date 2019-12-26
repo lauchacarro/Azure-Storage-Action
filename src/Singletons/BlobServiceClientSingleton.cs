@@ -17,7 +17,7 @@ namespace AzureStorageAction.Singletons
         {
             if (_instance.IsNull())
             {
-                string connectionString = ArgumentManager.GetValue(ArgumentEnum.ConnectionString);
+                string connectionString = ArgumentContext.Instance.GetValue(ArgumentEnum.ConnectionString);
 
                 _instance = new BlobServiceClient(connectionString);
             }

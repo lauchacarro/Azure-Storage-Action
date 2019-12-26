@@ -19,7 +19,7 @@ namespace AzureStorageAction.BlobCommands.Commands
     {
         public async Task ExecuteAction()
         {
-            string folderName = ArgumentManager.GetValue(ArgumentEnum.FolderName);
+            string folderName = ArgumentContext.Instance.GetValue(ArgumentEnum.FolderName);
             string completePath = string.IsNullOrWhiteSpace(folderName)
                 ? Environment.CurrentDirectory
                 : Path.Combine(Environment.CurrentDirectory, folderName);

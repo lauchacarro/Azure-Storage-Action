@@ -21,7 +21,7 @@ namespace AzureStorageAction.Singletons
         {
             if (_instance.IsNull())
             {
-                string containerName = ArgumentManager.GetValue(ArgumentEnum.ContainerName);
+                string containerName = ArgumentContext.Instance.GetValue(ArgumentEnum.ContainerName);
 
                 if (string.IsNullOrWhiteSpace(containerName))
                 {

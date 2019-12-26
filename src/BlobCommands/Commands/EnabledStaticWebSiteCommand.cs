@@ -13,7 +13,7 @@ namespace AzureStorageAction.BlobCommands.Commands
     {
         public async Task ExecuteAction()
         {
-            if (bool.TryParse(ArgumentManager.GetValue(ArgumentEnum.EnableStaticWebSite), out bool enabled))
+            if (bool.TryParse(ArgumentContext.Instance.GetValue(ArgumentEnum.EnableStaticWebSite), out bool enabled))
             {
 
                 Azure.Response<BlobServiceProperties> response = await BlobServiceClientSingleton.GetInstance().GetPropertiesAsync();
