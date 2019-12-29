@@ -19,7 +19,7 @@ namespace AzureStorageAction.Singletons
         private string _containerName = null;
         private BlobContainerClient _blobContainerClient = null;
         private BlobServiceClient _blobServiceClient = null;
-        private BlobServiceClientSingleton _blobServiceClientObject = null;
+        private readonly BlobServiceClientSingleton _blobServiceClientObject = null;
         private static BlobContainerClientSingleton _instance = null;
 
         public static BlobContainerClientSingleton Instance
