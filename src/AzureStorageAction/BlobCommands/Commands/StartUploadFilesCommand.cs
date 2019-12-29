@@ -20,23 +20,19 @@ namespace AzureStorageAction.BlobCommands.Commands
         public async Task ExecuteAction()
         {
             string folderName = ArgumentContext.Instance.GetValue(ArgumentEnum.FolderName);
-            string completePath = string.IsNullOrWhiteSpace(folderName)
+            string rootPath = string.IsNullOrWhiteSpace(folderName)
                 ? Environment.CurrentDirectory
                 : Path.Combine(Environment.CurrentDirectory, folderName);
 
 
-            if (Directory.Exists(completePath))
+            if (Directory.Exists(rootPath))
             {
-                foreach (string filePath in GetFiles(completePath))
+                DirectoryInfo directory = new DirectoryInfo(rootPath);
+                foreach (string filePath in directory.GetFilesRecursive())
                 {
                     FileInfo file = new FileInfo(filePath);
 
-                    string fileName = file.FullName.Replace(completePath, string.Empty);
-
-                    foreach (string slide in new[] { "\\", "\"", "/" })
-                    {
-                        fileName = fileName.StartsWith(slide) ? fileName.Substring(slide.Length) : fileName;
-                    }
+                    string fileName = file.GetFileName(rootPath);
 
                     BlobClient blobClient = (await BlobContainerClientSingleton.Instance.GetBlobContainerClient()).GetBlobClient(fileName);
 
@@ -45,9 +41,9 @@ namespace AzureStorageAction.BlobCommands.Commands
                     Console.WriteLine("Upload: {0}", fileName);
                     Console.WriteLine("Uri: {0}", blobClient.Uri.ToString());
 
-                    var provider = new FileExtensionContentTypeProvider();
+                    string contentType = file.GetContentType();
 
-                    if (provider.TryGetContentType(file.Name, out string contentType))
+                    if (!string.IsNullOrWhiteSpace(contentType))
                     {
                         BlobHttpHeaders blobHeaders = new BlobHttpHeaders
                         {
@@ -64,34 +60,8 @@ namespace AzureStorageAction.BlobCommands.Commands
             }
             else
             {
-                throw new ArgumentException(string.Format("The path '{0}' don´t exists.", completePath));
+                throw new ArgumentException(string.Format("The path '{0}' don´t exists.", rootPath));
             }
-        }
-
-        IEnumerable<string> GetFiles(string path)
-        {
-            Queue<string> queue = new Queue<string>();
-            queue.Enqueue(path);
-            while (queue.Count > 0)
-            {
-                path = queue.Dequeue();
-
-                foreach (string subDir in Directory.GetDirectories(path))
-                {
-                    queue.Enqueue(subDir);
-                }
-
-                string[] files = Directory.GetFiles(path);
-
-                if (files.IsNotNull())
-                {
-                    for (int i = 0; i < files.Length; i++)
-                    {
-                        yield return files[i];
-                    }
-                }
-            }
-
         }
     }
 }

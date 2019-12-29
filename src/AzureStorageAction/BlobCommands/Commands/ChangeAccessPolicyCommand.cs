@@ -2,6 +2,7 @@
 
 using AzureStorageAction.Arguments;
 using AzureStorageAction.BlobCommands.Interfaces;
+using AzureStorageAction.Extensions;
 using AzureStorageAction.Singletons;
 
 using System;
@@ -14,9 +15,9 @@ namespace AzureStorageAction.BlobCommands.Commands
         public async Task ExecuteAction()
         {
             string publicAccessPolicy = ArgumentContext.Instance.GetValue(ArgumentEnum.PublicAccessPolicy);
-            if (Enum.TryParse(typeof(PublicAccessType), publicAccessPolicy, out object result))
+            if (publicAccessPolicy.IsPublicAccessType(out PublicAccessType result))
             {
-                await (await BlobContainerClientSingleton.Instance.GetBlobContainerClient()).SetAccessPolicyAsync((PublicAccessType)result);
+                await (await BlobContainerClientSingleton.Instance.GetBlobContainerClient()).SetAccessPolicyAsync(result);
                 Console.WriteLine("The Access Policy was changed to {0}", result.ToString());
             }
         }
