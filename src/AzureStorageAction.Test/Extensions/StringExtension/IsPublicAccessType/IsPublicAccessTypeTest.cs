@@ -1,9 +1,8 @@
 ﻿using Azure.Storage.Blobs.Models;
+
 using AzureStorageAction.Extensions;
+
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AzureStorageAction.Test.Extensions.StringExtension.IsPublicAccessType
 {

@@ -1,5 +1,5 @@
 ﻿using Azure.Storage.Blobs;
-using AzureStorageAction.Singletons.Interfaces;
+
 using System.Threading.Tasks;
 
 namespace AzureStorageAction.Singletons.Interfaces

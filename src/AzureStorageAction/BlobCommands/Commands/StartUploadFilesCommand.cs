@@ -6,10 +6,7 @@ using AzureStorageAction.BlobCommands.Interfaces;
 using AzureStorageAction.Extensions;
 using AzureStorageAction.Singletons;
 
-using Microsoft.AspNetCore.StaticFiles;
-
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 

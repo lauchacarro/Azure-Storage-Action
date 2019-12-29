@@ -1,8 +1,8 @@
 ﻿using AzureStorageAction.Extensions;
+
 using NUnit.Framework;
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AzureStorageAction.Test.Extensions.StringExtension.IsLast
 {
@@ -13,7 +13,7 @@ namespace AzureStorageAction.Test.Extensions.StringExtension.IsLast
         {
             string[] values = new string[] { "1", "2", "3", "4", "5" };
 
-            Assert.IsTrue(values.IsLast(values.Length -1));
+            Assert.IsTrue(values.IsLast(values.Length - 1));
         }
 
         [Test]

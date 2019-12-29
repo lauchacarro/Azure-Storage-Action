@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs.Models;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
 using AzureStorageAction.Arguments;
 using AzureStorageAction.BlobCommands.Interfaces;
@@ -17,7 +18,8 @@ namespace AzureStorageAction.BlobCommands.Commands
             string publicAccessPolicy = ArgumentContext.Instance.GetValue(ArgumentEnum.PublicAccessPolicy);
             if (publicAccessPolicy.IsPublicAccessType(out PublicAccessType result))
             {
-                await (await BlobContainerClientSingleton.Instance.GetBlobContainerClient()).SetAccessPolicyAsync(result);
+                BlobContainerClient blobContainerClient = await BlobContainerClientSingleton.Instance.GetBlobContainerClient();
+                await blobContainerClient.SetAccessPolicyAsync(result);
                 Console.WriteLine("The Access Policy was changed to {0}", result.ToString());
             }
         }

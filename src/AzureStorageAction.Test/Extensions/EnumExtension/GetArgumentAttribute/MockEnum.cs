@@ -1,7 +1,4 @@
 ﻿using AzureStorageAction.Arguments;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AzureStorageAction.Test.Extensions.EnumExtension.GetArgumentAttribute
 {
@@ -16,7 +13,7 @@ namespace AzureStorageAction.Test.Extensions.EnumExtension.GetArgumentAttribute
         [Argument("m3", false)]
         Mock3,
 
-        
+
         Mock4,
     }
 }

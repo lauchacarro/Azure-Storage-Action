@@ -1,9 +1,9 @@
 ﻿using AzureStorageAction.Arguments;
 using AzureStorageAction.Extensions;
+
 using NUnit.Framework;
-using System;
+
 using System.Collections.Generic;
-using System.Text;
 
 namespace AzureStorageAction.Test.Extensions.ArgumentAttributeExtension.ValidateArgumentsRequerid
 {

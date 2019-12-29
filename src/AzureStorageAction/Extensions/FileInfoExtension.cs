@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.StaticFiles;
-using System;
-using System.Collections.Generic;
+
 using System.IO;
-using System.Text;
 
 namespace AzureStorageAction.Extensions
 {

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace AzureStorageAction.Extensions
 {
     public static class DirectoryInfoExtension
     {
-        public static IEnumerable<string> GetFilesRecursive(this DirectoryInfo directory )
+        public static IEnumerable<string> GetFilesRecursive(this DirectoryInfo directory)
         {
             string rootPath = directory.FullName;
             Queue<string> queue = new Queue<string>();

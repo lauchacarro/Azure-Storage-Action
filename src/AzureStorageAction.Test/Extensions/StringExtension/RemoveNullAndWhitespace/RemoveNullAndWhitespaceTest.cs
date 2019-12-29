@@ -1,10 +1,9 @@
 ﻿using AzureStorageAction.Extensions;
 using AzureStorageAction.Test.Extensions.StringExtension.RemoveNullAndWhitespace.DataSources;
+
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+
 using System.Linq;
-using System.Text;
 
 namespace AzureStorageAction.Test.Extensions.StringExtension.RemoveNullAndWhitespace
 {

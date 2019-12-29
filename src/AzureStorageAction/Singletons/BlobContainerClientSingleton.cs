@@ -1,8 +1,10 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+
 using AzureStorageAction.Arguments;
 using AzureStorageAction.Extensions;
 using AzureStorageAction.Singletons.Interfaces;
+
 using System;
 using System.Threading.Tasks;
 

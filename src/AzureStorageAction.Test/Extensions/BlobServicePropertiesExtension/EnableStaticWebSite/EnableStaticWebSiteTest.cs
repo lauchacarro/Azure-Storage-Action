@@ -1,5 +1,7 @@
 ﻿using Azure.Storage.Blobs.Models;
+
 using AzureStorageAction.Extensions;
+
 using NUnit.Framework;
 
 namespace AzureStorageAction.Test.Extensions.BlobServicePropertiesExtension.EnableStaticWebSite

@@ -20,57 +20,57 @@ namespace AzureStorageAction.Arguments
         {
             get
             {
-                if (_instance == null)
+                if (_instance.IsNull())
                 {
                     _instance = new ArgumentContext();
                 }
                 return _instance;
             }
         }
-    
-    public string GetValue(ArgumentEnum @enum)
-    {
-        return _arguments.ContainsKey(@enum) ? _arguments[@enum] : string.Empty;
-    }
 
-    public void AddArguments(string[] args)
-    {
-        ArgumentEnum[] argumentsEnum = typeof(ArgumentEnum).GetArray<ArgumentEnum>();
-
-        IEnumerable<ArgumentAttribute> argumentAttributes = argumentsEnum.GetArgumentAttributes();
-
-        string[] argumentsKeys = argumentAttributes.GetKeys();
-
-        for (int i = 0; i < args.Length; i++)
+        public string GetValue(ArgumentEnum @enum)
         {
-            if (!args.IsLast(i))
+            return _arguments.ContainsKey(@enum) ? _arguments[@enum] : string.Empty;
+        }
+
+        public void AddArguments(string[] args)
+        {
+            ArgumentEnum[] argumentsEnum = typeof(ArgumentEnum).GetArray<ArgumentEnum>();
+
+            IEnumerable<ArgumentAttribute> argumentAttributes = argumentsEnum.GetArgumentAttributes();
+
+            string[] argumentsKeys = argumentAttributes.GetKeys();
+
+            for (int i = 0; i < args.Length; i++)
             {
-                if (argumentsKeys.Contains(args[i]) && !argumentsKeys.Contains(args[i + 1]))
+                if (!args.IsLast(i))
                 {
-                    string key = args[i];
-                    string value = args[i + 1];
-
-                    int indexOfKey = Array.IndexOf(argumentsKeys, key);
-                    ArgumentEnum enumOfKey = argumentsEnum[indexOfKey];
-
-                    if (!_arguments.TryAdd(enumOfKey, value))
+                    if (argumentsKeys.Contains(args[i]) && !argumentsKeys.Contains(args[i + 1]))
                     {
-                        _arguments[enumOfKey] = value;
+                        string key = args[i];
+                        string value = args[i + 1];
+
+                        int indexOfKey = Array.IndexOf(argumentsKeys, key);
+                        ArgumentEnum enumOfKey = argumentsEnum[indexOfKey];
+
+                        if (!_arguments.TryAdd(enumOfKey, value))
+                        {
+                            _arguments[enumOfKey] = value;
+                        }
                     }
                 }
             }
+
+            ArgumentEnum? argumentMissing = _arguments.ValidateArgumentsRequerid();
+            if (argumentMissing.HasValue)
+            {
+                throw new ArgumentException(string.Format("{0} was not specified", argumentMissing.Value.ToString()));
+            }
         }
 
-        ArgumentEnum? argumentMissing = _arguments.ValidateArgumentsRequerid();
-        if (argumentMissing.HasValue)
+        public void Clear()
         {
-            throw new ArgumentException(string.Format("{0} was not specified", argumentMissing.Value.ToString()));
+            _arguments.Clear();
         }
     }
-
-    public void Clear()
-    {
-        _arguments.Clear();
-    }
-}
 }

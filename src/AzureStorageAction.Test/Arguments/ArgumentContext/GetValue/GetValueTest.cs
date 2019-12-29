@@ -1,7 +1,6 @@
 ﻿using AzureStorageAction.Arguments;
+
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace AzureStorageAction.Test.Arguments.ArgumentContext.GetValue
 {

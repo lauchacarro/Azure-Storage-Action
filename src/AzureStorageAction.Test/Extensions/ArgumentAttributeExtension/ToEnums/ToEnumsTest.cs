@@ -1,9 +1,9 @@
 ﻿using AzureStorageAction.Arguments;
 using AzureStorageAction.Extensions;
+
 using NUnit.Framework;
-using System;
+
 using System.Collections.Generic;
-using System.Text;
 
 namespace AzureStorageAction.Test.Extensions.ArgumentAttributeExtension.ToEnums
 {
@@ -12,7 +12,7 @@ namespace AzureStorageAction.Test.Extensions.ArgumentAttributeExtension.ToEnums
         [Test]
         public void ToEnums_With_ValidKeys_Return_SameKeys()
         {
-            string[] keys = new string[] {  "-n", "-c", "-s" };
+            string[] keys = new string[] { "-n", "-c", "-s" };
 
             List<ArgumentAttribute> argumentsActual = new List<ArgumentAttribute>()
             {

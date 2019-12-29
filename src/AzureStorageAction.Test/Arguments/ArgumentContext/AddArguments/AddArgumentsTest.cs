@@ -1,10 +1,7 @@
 ﻿using AzureStorageAction.Arguments;
 using AzureStorageAction.Test.Arguments.ArgumentContext.AddArguments.DataSources;
+
 using NUnit.Framework;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AzureStorageAction.Test.Arguments.ArgumentContext.AddArguments
 {
