@@ -3,27 +3,25 @@ using Azure.Storage.Blobs.Models;
 
 using AzureStorageAction.Arguments;
 using AzureStorageAction.Extensions;
-using AzureStorageAction.Singletons.Interfaces;
 
 using System;
 using System.Threading.Tasks;
 
 namespace AzureStorageAction.Singletons
 {
-    public sealed class BlobContainerClientSingleton : IBlobContainerClientSingleton
+    public sealed class BlobContainerClientSingleton
     {
         private BlobContainerClientSingleton()
         {
-            BlobServiceClientObject = BlobServiceClientSingleton.Instance;
+            _blobServiceClientObject = BlobServiceClientSingleton.Instance;
         }
 
         private string _containerName = null;
-
         private BlobContainerClient _blobContainerClient = null;
-
         private BlobServiceClient _blobServiceClient = null;
-
+        private BlobServiceClientSingleton _blobServiceClientObject = null;
         private static BlobContainerClientSingleton _instance = null;
+
         public static BlobContainerClientSingleton Instance
         {
             get
@@ -36,8 +34,6 @@ namespace AzureStorageAction.Singletons
                 return _instance;
             }
         }
-
-        public IBlobServiceClientSingleton BlobServiceClientObject { get; set; }
 
         public async Task<BlobContainerClient> GetBlobContainerClient()
         {
@@ -75,7 +71,7 @@ namespace AzureStorageAction.Singletons
         {
             await foreach (BlobContainerItem container in _blobServiceClient.GetBlobContainersAsync())
             {
-                if (container.Name == _containerName.Trim())
+                if (container.Name.Equals(_containerName.Trim()))
                 {
                     BlobContainerClient blobContainer = _blobServiceClient.GetBlobContainerClient(_containerName);
                     Console.WriteLine("Blob Container {0} was found.", _containerName);
@@ -95,7 +91,7 @@ namespace AzureStorageAction.Singletons
 
         private BlobServiceClient GetBlobServiceClient()
         {
-            return BlobServiceClientObject.GetBlobServiceClient();
+            return _blobServiceClientObject.GetBlobServiceClient();
         }
     }
 }

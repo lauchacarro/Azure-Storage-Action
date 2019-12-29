@@ -2,17 +2,18 @@
 
 using AzureStorageAction.Arguments;
 using AzureStorageAction.Extensions;
-using AzureStorageAction.Singletons.Interfaces;
 
 namespace AzureStorageAction.Singletons
 {
-    public sealed class BlobServiceClientSingleton : IBlobServiceClientSingleton
+    public sealed class BlobServiceClientSingleton
     {
         private BlobServiceClientSingleton()
         {
         }
 
         private static BlobServiceClientSingleton _instance = null;
+        private BlobServiceClient _blobServiceClientObject = null;
+
         public static BlobServiceClientSingleton Instance
         {
             get
@@ -25,18 +26,17 @@ namespace AzureStorageAction.Singletons
                 return _instance;
             }
         }
-        public BlobServiceClient BlobServiceClientObject { get; set; }
 
         public BlobServiceClient GetBlobServiceClient()
         {
-            if (BlobServiceClientObject.IsNull())
+            if (_blobServiceClientObject.IsNull())
             {
                 string connectionString = ArgumentContext.Instance.GetValue(ArgumentEnum.ConnectionString);
 
-                BlobServiceClientObject = new BlobServiceClient(connectionString);
+                _blobServiceClientObject = new BlobServiceClient(connectionString);
             }
 
-            return BlobServiceClientObject;
+            return _blobServiceClientObject;
         }
     }
 }
