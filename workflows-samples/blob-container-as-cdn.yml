@@ -1,0 +1,15 @@
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v1
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.100'
+    - uses: lauchacarro/Azure-Storage-Action@master
+      with:
+        folder: 'files' # All files and subfolders found in the specified folder will be uploaded.
+        connection-string: ${{ secrets.CONNECTION_STRING }}
+        public-access-policy: BlobContainer # BlobContainer | Blob | None
+        blob-container-name: 'cdn'
