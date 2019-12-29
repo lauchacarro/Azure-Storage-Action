@@ -8,7 +8,7 @@ const main = async () => {
     const accessPolicy = core.getInput('public-access-policy');
     const enableStaticWebSite = core.getInput('enabled-static-website');
 
-    let args = ['run', '-c', 'Release', '--project', __dirname + '/src/AzureStorageAction.csproj', '--'];
+    let args = ['run', '-c', 'Release', '--project', __dirname + '/src/AzureStorageAction/AzureStorageAction.csproj', '--'];
 
     if (connectionString) {
         args.push('-c')
