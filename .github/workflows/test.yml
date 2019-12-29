@@ -1,22 +1,30 @@
 name: Build and Test
 
 on:
+  pull_request:
   push:
     branches:
       - test
+      - master
+      - releases/*
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - name: 'Checkout'
+        uses: actions/checkout@master
         with:
           ref: ${{ github.ref }}
-      - uses: actions/setup-dotnet@v1.0.0
+
+      - name: 'Install dotnet 3.1'
+        uses: actions/setup-dotnet@v1.0.0
         with:
           version: 3.1.100
-      - run: |
-          cd src
+ 
+      - name: 'Build and Test'
+        working-directory: 'src'
+        run: |
           dotnet build
           dotnet test
            
