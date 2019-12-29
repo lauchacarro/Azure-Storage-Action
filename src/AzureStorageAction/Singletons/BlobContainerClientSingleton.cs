@@ -54,7 +54,7 @@ namespace AzureStorageAction.Singletons
 
                 if (_blobContainerClient.IsNull())
                 {
-                    await CreateBlobContainer();
+                    _blobContainerClient = await CreateBlobContainer();
                 }
             }
 
