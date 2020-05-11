@@ -7,6 +7,8 @@ const main = async () => {
     const containerName = core.getInput('blob-container-name');
     const accessPolicy = core.getInput('public-access-policy');
     const enableStaticWebSite = core.getInput('enabled-static-website');
+    const indexDoc = core.getInput('index-document');
+    const errorDoc = core.getInput('error-document');
 
     let args = ['run', '-c', 'Release', '--project', __dirname + '/src/AzureStorageAction/AzureStorageAction.csproj', '--'];
 
@@ -33,6 +35,16 @@ const main = async () => {
     if (enableStaticWebSite) {
         args.push('-s')
         args.push(enableStaticWebSite)
+    }
+
+    if(indexDoc) {
+        args.push('-i')
+        args.push(indexDoc)
+    }
+
+    if(errorDoc) {
+        args.push('-e')
+        args.push(errorDoc)
     }
 
     await exec.exec('dotnet', args);

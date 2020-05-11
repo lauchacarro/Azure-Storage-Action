@@ -22,17 +22,17 @@ namespace AzureStorageAction.Test.Extensions.BlobServicePropertiesExtension.Enab
         [Test]
         public void EnableStaticWebSite_With_True_Return_True()
         {
-            blobServiceProperties.EnableStaticWebSite(true);
+            blobServiceProperties.EnableStaticWebSite("index.html", "404.html");
 
-            Assert.AreEqual(AzureStorageAction.Extensions.BlobServicePropertiesExtension.INDEXDOCUMENT, blobServiceProperties.StaticWebsite.IndexDocument);
-            Assert.AreEqual(AzureStorageAction.Extensions.BlobServicePropertiesExtension.ERRORDOCUMENT404PATH, blobServiceProperties.StaticWebsite.ErrorDocument404Path);
+            Assert.AreEqual("index.html", blobServiceProperties.StaticWebsite.IndexDocument);
+            Assert.AreEqual("404.html", blobServiceProperties.StaticWebsite.ErrorDocument404Path);
             Assert.IsTrue(blobServiceProperties.StaticWebsite.Enabled);
         }
 
         [Test]
         public void EnableStaticWebSite_With_False_Return_False()
         {
-            blobServiceProperties.EnableStaticWebSite(false);
+            blobServiceProperties.DisableStaticWebSite();
 
             Assert.IsFalse(blobServiceProperties.StaticWebsite.Enabled);
         }

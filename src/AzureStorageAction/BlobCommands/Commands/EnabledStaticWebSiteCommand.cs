@@ -18,7 +18,27 @@ namespace AzureStorageAction.BlobCommands.Commands
             {
                 Azure.Response<BlobServiceProperties> response = await BlobServiceClientSingleton.Instance.GetBlobServiceClient().GetPropertiesAsync();
                 BlobServiceProperties properties = response.Value;
-                properties.EnableStaticWebSite(enabled);
+                if(enabled)
+                {
+                    var indexDocument = ArgumentContext.Instance.GetValue(ArgumentEnum.IndexDocument);
+                    var errorDocument = ArgumentContext.Instance.GetValue(ArgumentEnum.ErrorDocument);
+
+                    if(string.IsNullOrWhiteSpace(indexDocument))
+                    {
+                        indexDocument = "index.html";
+                    }
+
+                    if(string.IsNullOrWhiteSpace(errorDocument))
+                    {
+                        indexDocument = "404.html";
+                    }
+
+                    properties.EnableStaticWebSite(indexDocument, errorDocument);
+                }
+                else
+                {
+                    properties.DisableStaticWebSite();
+                }
 
                 await BlobServiceClientSingleton.Instance.GetBlobServiceClient().SetPropertiesAsync(properties);
 
@@ -27,12 +47,12 @@ namespace AzureStorageAction.BlobCommands.Commands
                 if (enabled)
                 {
                     Console.WriteLine("Enabled Static Web Site:");
-                    Console.WriteLine($"IndexDocument: {properties.StaticWebsite.IndexDocument}");
-                    Console.WriteLine($"ErrorDocument404Path: {properties.StaticWebsite.ErrorDocument404Path}");
+                    Console.WriteLine($"  IndexDocument: {properties.StaticWebsite.IndexDocument}");
+                    Console.WriteLine($"  ErrorDocument404Path: {properties.StaticWebsite.ErrorDocument404Path}");
                 }
                 else
                 {
-                    Console.WriteLine("Disabled Static Web Site:");
+                    Console.WriteLine("Disabled Static Web Site.");
                 }
 
                 Console.WriteLine("***");
