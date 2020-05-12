@@ -15,6 +15,12 @@
         PublicAccessPolicy,
 
         [Argument("-s", false)]
-        EnableStaticWebSite
+        EnableStaticWebSite,
+
+        [Argument("-i", false)]
+        IndexDocument,
+
+        [Argument("-e", false)]
+        ErrorDocument,
     }
 }

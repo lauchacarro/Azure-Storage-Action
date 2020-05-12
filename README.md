@@ -38,6 +38,8 @@ jobs:
       with:
         enabled-static-website: 'true'
         folder: 'MyFolder'
+        index-document: 'index.html'
+        error-document: '404.html' # For Angular apps with routing enabled, this must point to the index.html file because the requested routes don't exist phyiscally and blob storage would throw a 404.
         connection-string: ${{ secrets.CONNECTION_STRING }}
 
 ```
