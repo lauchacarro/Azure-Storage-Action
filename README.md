@@ -14,7 +14,7 @@ With [`Azure Storage Action`](https://github.com/lauchacarro/Azure-Storage-Actio
 * [Setup DotNet](https://github.com/actions/setup-dotnet) Sets up a dotnet environment by optionally downloading and caching a version of dotnet by SDK version and adding to PATH .
   
 ## Create Azure Storage Account and deploy static website using GitHub Actions
-1. Follow the tutorial [Azure Storage Account](https://docs.microsoft.com/learn/modules/create-azure-storage-account/5-exercise-create-a-storage-account))
+1. Follow the tutorial [Azure Storage Account](https://docs.microsoft.com/learn/modules/create-azure-storage-account/5-exercise-create-a-storage-account)
 2. Copy the following example of workflow and create the workflow to `.github/workflows/` in your project repository.
 3. Change `folder` to your folder path where files to deploy are.
 4. Commit and push your project to GitHub repository, you should see a new GitHub Action initiated in **Actions** tab.
